@@ -1,0 +1,23 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nvidia-pytorch-8gpu-pod
+spec:
+  restartPolicy: OnFailure
+  hostNetwork: true
+  containers:
+  - name: nvidia-pytorch-8gpu-pod
+    image: willhanau/pytorch-frustum-convnet:v1.1
+    command: ["sleep","infinity"]
+    resources:
+      limits:
+        nvidia.com/gpu: 8
+        cpu: 16
+        memory: "128Gi"
+    volumeMounts:
+      - mountPath: "/local-storage"
+        name: local-storage
+  volumes:
+    - name: local-storage
+      persistentVolumeClaim:
+        claimName: local-storage-pvc
